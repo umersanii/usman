@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Muhammad Usman Majid — Multimedia Specialist</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --gold: #4A78E0;
+      --gold-light: #7A9FEC;
+      --gold-dark: #2E5CC4;
+      --gold-dim: rgba(74,120,224,0.10);
+      --gold-rgb: 74, 120, 224;
+      --black: #F4F6FA;
+      --black-rgb: 244, 246, 250;
+      --dark: #E8ECF5;
+      --dark-deep: #D8E0F2;
+      --card: #FFFFFF;
+      --border: #CDD3E2;
+      --text: #0D111C;
+      --muted: #5A6473;
+      --white: #0D111C;
+    }
+
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ─── CURSOR ─────────────────────────────────────── */
+    #cur {
+      position: fixed; width: 10px; height: 10px;
+      background: var(--gold); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .25s, height .25s, background .25s;
+    }
+    #cur-ring {
+      position: fixed; width: 38px; height: 38px;
+      border: 1.5px solid var(--gold); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: width .3s, height .3s, opacity .3s;
+      opacity: .5;
+    }
+    body.ch #cur  { width: 6px; height: 6px; background: var(--gold-light); }
+    body.ch #cur-ring { width: 56px; height: 56px; opacity: .2; }
+
+    /* ─── PRELOADER ──────────────────────────────────── */
+    #pre {
+      position: fixed; inset: 0; background: var(--black);
+      z-index: 10000; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 28px;
+    }
+    .pre-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 7vw, 5.5rem);
+      letter-spacing: .25em; color: var(--white);
+      display: flex; gap: .05em; overflow: hidden;
+    }
+    .pre-name span {
+      display: inline-block; opacity: 0;
+      animation: ldrop .5s ease forwards;
+    }
+    .pre-sub {
+      font-size: .72rem; letter-spacing: .35em;
+      text-transform: uppercase; color: var(--gold); opacity: 0;
+      animation: fin .6s .9s ease forwards;
+    }
+    .pre-bar {
+      width: 180px; height: 1px; background: var(--border); overflow: hidden;
+    }
+    .pre-bar::after {
+      content: ''; display: block; height: 100%;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      animation: bslide 1.6s ease forwards;
+    }
+    #pre.out { animation: pout .55s ease forwards; }
+
+    @keyframes ldrop { from { opacity:0; transform:translateY(-30px); } to { opacity:1; transform:none; } }
+    @keyframes fin   { from { opacity:0; } to { opacity:1; } }
+    @keyframes bslide { from { transform:translateX(-100%); } to { transform:translateX(100%); } }
+    @keyframes pout  { to   { opacity:0; pointer-events:none; } }
+
+    /* ─── NAV ────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      padding: 22px 5vw; display: flex; align-items: center;
+      justify-content: space-between;
+      backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+      background: rgba(var(--black-rgb),.88);
+      border-bottom: 1px solid transparent;
+      transition: padding .3s, border-color .3s;
+    }
+    nav.sc { border-color: var(--border); padding: 14px 5vw; }
+
+    .n-logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.75rem; letter-spacing: .15em; color: var(--white);
+      text-decoration: none;
+    }
+    .n-logo em { color: var(--gold); font-style: normal; }
+
+    .n-links { display: flex; gap: 32px; list-style: none; }
+    .n-links a {
+      text-decoration: none; color: var(--muted);
+      font-size: .8rem; font-weight: 500;
+      letter-spacing: .12em; text-transform: uppercase;
+      transition: color .3s; position: relative;
+    }
+    .n-links a::after {
+      content: ''; position: absolute; bottom: -4px; left: 0;
+      width: 0; height: 1px; background: var(--gold); transition: width .3s;
+    }
+    .n-links a:hover { color: var(--gold); }
+    .n-links a:hover::after { width: 100%; }
+
+    .n-hire {
+      padding: 10px 24px; border: 1px solid var(--gold);
+      color: var(--gold); text-decoration: none;
+      font-size: .78rem; font-weight: 600;
+      letter-spacing: .14em; text-transform: uppercase;
+      transition: all .3s; position: relative; overflow: hidden;
+    }
+    .n-hire::before {
+      content: ''; position: absolute; inset: 0;
+      background: var(--gold); transform: translateX(-101%); transition: transform .3s; z-index: -1;
+    }
+    .n-hire:hover { color: var(--black); }
+    .n-hire:hover::before { transform: translateX(0); }
+
+    .burger { display: none; flex-direction: column; gap: 5px; cursor: none; }
+    .burger span { width: 26px; height: 2px; background: var(--gold); transition: all .3s; }
+
+    /* ─── HERO ───────────────────────────────────────── */
+    #hero {
+      min-height: 100vh; display: flex; align-items: center;
+      position: relative; overflow: hidden; padding: 0 5vw;
+    }
+    #hero-cv {
+      position: absolute; inset: 0; z-index: 0;
+      width: 100%; height: 100%;
+    }
+    #hero-fade {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(
+        to right,
+        var(--black) 0%,
+        rgba(var(--black-rgb), .7) 15%,
+        rgba(var(--black-rgb), .1) 40%,
+        transparent 60%
+      );
+    }
+    .h-content { position: relative; z-index: 2; max-width: 860px; }
+
+    .h-tag {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: .72rem; font-weight: 600; letter-spacing: .28em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 22px;
+      opacity: 0; animation: fup .8s 2s ease forwards;
+    }
+    .h-tag::before { content: ''; width: 38px; height: 1px; background: var(--gold); }
+
+    .h-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.8rem, 10vw, 9.5rem);
+      line-height: .9; color: var(--white); margin-bottom: 22px;
+      overflow: hidden;
+    }
+    .h-name .l {
+      display: block; transform: translateY(105%);
+      animation: sup .9s ease forwards;
+    }
+    .h-name .l:nth-child(1) { animation-delay: 2.1s; }
+    .h-name .l:nth-child(2) { animation-delay: 2.25s; }
+    .h-name .l:nth-child(3) { animation-delay: 2.4s; }
+    .h-name .g { color: var(--gold); animation: gp 3.5s 3.8s ease-in-out infinite; }
+
+    .h-desc {
+      font-size: 1rem; color: var(--muted); line-height: 1.8;
+      max-width: 420px; margin-bottom: 44px; font-weight: 300;
+      opacity: 0; animation: fup .8s 2.65s ease forwards;
+    }
+    .h-btns {
+      display: flex; gap: 18px; flex-wrap: wrap;
+      opacity: 0; animation: fup .8s 2.85s ease forwards;
+    }
+
+    .btn-g {
+      padding: 15px 40px; background: var(--gold); color: var(--black);
+      text-decoration: none; font-weight: 700; font-size: .82rem;
+      letter-spacing: .14em; text-transform: uppercase;
+      transition: box-shadow .3s, transform .2s; display: inline-block;
+    }
+    .btn-g:hover { box-shadow: 0 0 36px rgba(var(--gold-rgb),.45); transform: translateY(-2px); }
+
+    .btn-o {
+      padding: 15px 40px; border: 1px solid var(--border); color: var(--text);
+      text-decoration: none; font-size: .82rem; font-weight: 500;
+      letter-spacing: .14em; text-transform: uppercase;
+      transition: border-color .3s, color .3s; display: inline-block;
+    }
+    .btn-o:hover { border-color: var(--gold); color: var(--gold); }
+
+    .h-scroll {
+      position: absolute; bottom: 40px; left: 50%;
+      transform: translateX(-50%); display: flex;
+      flex-direction: column; align-items: center; gap: 8px;
+      opacity: 0; animation: fin 1s 3.2s ease forwards;
+      z-index: 2;
+    }
+    .h-scroll span { font-size: .65rem; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); }
+    .s-line {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--gold), transparent);
+      animation: sp 2s infinite;
+    }
+
+    @keyframes fup { from { opacity:0; transform:translateY(18px); } to { opacity:1; transform:none; } }
+    @keyframes fin { from { opacity:0; } to { opacity:1; } }
+    @keyframes sup { from { transform:translateY(105%); } to { transform:none; } }
+    @keyframes gp  { 0%,100% { text-shadow:none; } 50% { text-shadow:0 0 38px rgba(var(--gold-rgb),.5); } }
+    @keyframes sp  { 0%,100% { opacity:.2; } 50% { opacity:1; } }
+
+    /* ─── MARQUEE ────────────────────────────────────── */
+    .mq { overflow: hidden; background: var(--gold); padding: 13px 0; }
+    .mq-track {
+      display: flex; white-space: nowrap;
+      animation: mq 22s linear infinite;
+    }
+    .mq-item {
+      padding: 0 38px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: .95rem; letter-spacing: .2em; color: var(--black);
+      display: flex; align-items: center; gap: 18px;
+    }
+    .mq-item::after { content: '✦'; font-size: .55rem; }
+    @keyframes mq { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+
+    /* ─── SECTIONS ───────────────────────────────────── */
+    section { padding: 100px 5vw; }
+
+    .sl {
+      display: inline-flex; align-items: center; gap: 12px;
+      font-size: .7rem; font-weight: 600; letter-spacing: .3em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 14px;
+    }
+    .sl::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+
+    .st {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.6rem, 5.5vw, 5rem);
+      line-height: 1; color: var(--white); margin-bottom: 56px;
+    }
+    .st .dim { color: var(--border); }
+
+    /* ─── ABOUT ──────────────────────────────────────── */
+    #about { display: grid; grid-template-columns: 1fr 1.2fr; gap: 80px; align-items: center; }
+
+    .a-frame {
+      position: relative; aspect-ratio: 3/4;
+      background: var(--card); overflow: hidden;
+    }
+    .a-frame::before {
+      content: 'UM'; font-family: 'Bebas Neue', sans-serif;
+      font-size: 18vw; color: rgba(var(--gold-rgb),.04);
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%); pointer-events: none; user-select: none;
+    }
+    .a-frame::after {
+      content: ''; position: absolute; inset: 0;
+      border: 1.5px solid var(--gold);
+      transform: translate(14px,14px); z-index: 0; pointer-events: none;
+    }
+    .a-img-ph {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      background: linear-gradient(135deg, var(--dark), var(--dark-deep));
+    }
+    .a-img-ph span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 7rem; color: rgba(var(--gold-rgb),.15);
+    }
+
+    .a-vision { font-size: .95rem; line-height: 1.9; color: var(--muted); margin-bottom: 28px; font-weight: 300; }
+    .a-vision strong { color: var(--white); font-weight: 500; }
+    .a-vision em { font-style: italic; }
+
+    /* specs cards */
+    .a-specs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 30px; }
+    .a-spec {
+      padding: 20px 18px; color: var(--text);
+      border: 1px solid rgba(var(--gold-rgb),.18);
+      background: rgba(var(--gold-rgb),.05);
+      display: flex; flex-direction: column; gap: 12px;
+      transition: border-color .3s, background .3s, transform .3s;
+      cursor: default;
+    }
+    .a-spec:hover {
+      border-color: rgba(var(--gold-rgb),.45);
+      background: rgba(var(--gold-rgb),.1);
+      transform: translateY(-3px);
+    }
+    .a-spec svg { width: 26px; height: 26px; stroke: var(--gold); flex-shrink: 0; }
+    .a-spec-nm { font-size: .85rem; font-weight: 500; color: var(--white); line-height: 1.3; }
+
+    /* stats row */
+    .a-stats-row {
+      display: flex; margin-bottom: 28px;
+      border: 1px solid var(--border);
+    }
+    .a-stat {
+      flex: 1; padding: 18px 12px; text-align: center;
+      border-right: 1px solid var(--border);
+      position: relative;
+    }
+    .a-stat:last-child { border-right: none; }
+    .a-stat::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0;
+      height: 2px; background: var(--gold); transform: scaleX(0);
+      transition: transform .3s;
+    }
+    .a-stat:hover::before { transform: scaleX(1); }
+    .a-stat-n {
+      display: block; font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem; color: var(--gold); line-height: 1;
+    }
+    .a-stat-l {
+      display: block; font-size: .65rem; color: var(--muted);
+      letter-spacing: .12em; text-transform: uppercase; margin-top: 4px;
+    }
+
+    .a-ctas { display: flex; gap: 16px; flex-wrap: wrap; }
+
+    /* ─── PORTFOLIO ──────────────────────────────────── */
+    #portfolio { padding: 100px 0; }
+    .port-header { padding: 0 5vw; margin-bottom: 52px; }
+
+    .port-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 3px;
+    }
+    .port-card {
+      position: relative; overflow: hidden; cursor: none;
+      aspect-ratio: 4/3;
+    }
+    .port-card.wide {
+      grid-column: span 2;
+      aspect-ratio: 8/3;
+    }
+
+    /* gradient backgrounds */
+    .pc-brand    { background: linear-gradient(135deg, #0f1d4d 0%, #2E5CC4 60%, #4A78E0 100%); }
+    .pc-video    { background: linear-gradient(135deg, #1a0000 0%, #7b1010 60%, #c0392b 100%); }
+    .pc-social   { background: linear-gradient(135deg, #1a003d 0%, #5b2089 60%, #8e44ad 100%); }
+    .pc-motion   { background: linear-gradient(135deg, #001a17 0%, #0d5c4f 60%, #00897b 100%); }
+    .pc-photo    { background: linear-gradient(135deg, #1a1000 0%, #7a4d00 60%, #c07d00 100%); }
+    .pc-it       { background: linear-gradient(135deg, #0a0f1a 0%, #1a2d4a 60%, #2c4a7a 100%); }
+
+    /* decorative shapes */
+    .port-deco {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .port-deco::before {
+      content: ''; position: absolute;
+      width: 240px; height: 240px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.08);
+      top: -60px; right: -60px;
+    }
+    .port-deco::after {
+      content: ''; position: absolute;
+      width: 140px; height: 140px; border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.06);
+      bottom: 20px; left: 20px;
+    }
+
+    .port-deco-lines {
+      position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+    }
+    .port-deco-lines::before {
+      content: ''; position: absolute;
+      width: 200%; height: 1px;
+      background: rgba(255,255,255,.04);
+      top: 35%; left: -50%; transform: rotate(-18deg);
+    }
+    .port-deco-lines::after {
+      content: ''; position: absolute;
+      width: 200%; height: 1px;
+      background: rgba(255,255,255,.04);
+      top: 65%; left: -50%; transform: rotate(-18deg);
+    }
+
+    .port-ico {
+      position: absolute; top: 24px; left: 28px;
+      font-size: 2rem; z-index: 2;
+      filter: drop-shadow(0 2px 8px rgba(0,0,0,.3));
+    }
+    .port-num {
+      position: absolute; bottom: -12px; right: 16px;
+      font-family: 'Bebas Neue', sans-serif; font-size: 7rem;
+      color: rgba(255,255,255,.05); line-height: 1; z-index: 0;
+      pointer-events: none;
+    }
+    .port-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 20px 28px 24px;
+      background: linear-gradient(to top, rgba(0,0,0,.65) 0%, transparent 100%);
+      z-index: 2;
+    }
+    .port-t {
+      font-size: 1rem; font-weight: 600; color: #fff;
+      margin-bottom: 3px; letter-spacing: .02em;
+    }
+    .port-d { font-size: .76rem; color: rgba(255,255,255,.65); }
+
+    .port-hover {
+      position: absolute; inset: 0; z-index: 3;
+      background: rgba(0,0,0,.45);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transition: opacity .35s;
+    }
+    .port-card:hover .port-hover { opacity: 1; }
+    .port-hover-btn {
+      padding: 10px 26px; border: 1.5px solid rgba(255,255,255,.85);
+      color: #fff; font-size: .72rem; font-weight: 600;
+      letter-spacing: .18em; text-transform: uppercase;
+      transform: translateY(8px); transition: transform .35s;
+    }
+    .port-card:hover .port-hover-btn { transform: translateY(0); }
+
+    /* scale on hover */
+    .port-deco, .port-deco-lines, .port-ico, .port-num {
+      transition: transform .6s cubic-bezier(.25,.46,.45,.94);
+    }
+    .port-card:hover .port-deco,
+    .port-card:hover .port-deco-lines { transform: scale(1.06); }
+
+    /* ─── SERVICES ───────────────────────────────────── */
+    #services { background: var(--dark); }
+
+    .svc-header {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 40px; align-items: end; margin-bottom: 56px;
+    }
+    .svc-intro {
+      font-size: .95rem; color: var(--muted); line-height: 1.85;
+      font-weight: 300; max-width: 380px;
+    }
+    .svc-header-right {
+      display: flex; flex-direction: column; align-items: flex-start; gap: 20px;
+    }
+    .svc-cta-link {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: .78rem; font-weight: 600; letter-spacing: .18em;
+      text-transform: uppercase; color: var(--gold); text-decoration: none;
+      transition: gap .3s;
+    }
+    .svc-cta-link:hover { gap: 16px; }
+    .svc-cta-link span { font-size: 1.1rem; }
+
+    .svc-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .svc-grid .svc-card:first-child { grid-column: span 2; }
+
+    .svc-card {
+      padding: 40px 34px 36px; background: var(--card);
+      position: relative; overflow: hidden;
+      transition: transform .4s cubic-bezier(.25,.46,.45,.94);
+      cursor: none; display: flex; flex-direction: column;
+      border-top: 3px solid var(--svc-accent, var(--border));
+    }
+    .svc-card::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(160deg, rgba(var(--svc-rgb, var(--gold-rgb)),.055) 0%, transparent 60%);
+      opacity: 0; transition: opacity .4s;
+    }
+    .svc-card:hover { transform: translateY(-6px); }
+    .svc-card:hover::after { opacity: 1; }
+
+    /* per-service accent colours */
+    .svc-card:nth-child(1) { --svc-accent: #4A78E0; --svc-rgb: 74,120,224; }
+    .svc-card:nth-child(2) { --svc-accent: #c0392b; --svc-rgb: 192,57,43; }
+    .svc-card:nth-child(3) { --svc-accent: #8e44ad; --svc-rgb: 142,68,173; }
+    .svc-card:nth-child(4) { --svc-accent: #00897b; --svc-rgb: 0,137,123; }
+    .svc-card:nth-child(5) { --svc-accent: #c07d00; --svc-rgb: 192,125,0; }
+    .svc-card:nth-child(6) { --svc-accent: #2c4a7a; --svc-rgb: 44,74,122; }
+
+    .svc-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 20px; }
+    .svc-ico {
+      width: 50px; height: 50px; font-size: 1.4rem;
+      background: rgba(var(--svc-rgb, var(--gold-rgb)),.1);
+      border: 1px solid rgba(var(--svc-rgb, var(--gold-rgb)),.25);
+      display: flex; align-items: center; justify-content: center;
+      transition: background .3s, transform .3s;
+      flex-shrink: 0;
+    }
+    .svc-card:hover .svc-ico { background: rgba(var(--svc-rgb, var(--gold-rgb)),.22); transform: scale(1.08); }
+    .svc-n {
+      font-family: 'Bebas Neue', sans-serif; font-size: 5rem;
+      color: rgba(var(--svc-rgb, var(--gold-rgb)),.07); line-height: 1;
+      pointer-events: none; user-select: none;
+    }
+    .svc-t { font-size: 1.08rem; font-weight: 600; color: var(--white); margin-bottom: 10px; }
+    .svc-d { font-size: .84rem; color: var(--muted); line-height: 1.78; margin-bottom: 22px; flex: 1; }
+
+    .svc-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 24px; }
+    .svc-tag {
+      padding: 3px 11px; font-size: .7rem; letter-spacing: .1em;
+      text-transform: uppercase; color: rgba(var(--svc-rgb, var(--gold-rgb)),1);
+      border: 1px solid rgba(var(--svc-rgb, var(--gold-rgb)),.3);
+      background: rgba(var(--svc-rgb, var(--gold-rgb)),.07);
+    }
+
+    .svc-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 20px; border-top: 1px solid var(--border); margin-top: auto;
+    }
+    .svc-arrow {
+      width: 34px; height: 34px;
+      border: 1px solid rgba(var(--svc-rgb, var(--gold-rgb)),.35);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .85rem; color: rgba(var(--svc-rgb, var(--gold-rgb)),1);
+      transition: background .3s, border-color .3s, transform .3s;
+    }
+    .svc-card:hover .svc-arrow {
+      background: rgba(var(--svc-rgb, var(--gold-rgb)),1);
+      border-color: rgba(var(--svc-rgb, var(--gold-rgb)),1);
+      color: #fff; transform: translate(2px,-2px);
+    }
+    .svc-avail { font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); }
+
+    /* included strip */
+    .svc-incl {
+      margin-top: 2px; background: var(--text);
+      padding: 28px 40px; display: flex; align-items: center;
+      flex-wrap: wrap; gap: 0;
+    }
+    .svc-incl-lbl {
+      font-size: .68rem; letter-spacing: .28em; text-transform: uppercase;
+      color: var(--gold); margin-right: 36px; white-space: nowrap; flex-shrink: 0;
+    }
+    .svc-incl-items { display: flex; flex-wrap: wrap; gap: 0; flex: 1; }
+    .svc-incl-item {
+      display: flex; align-items: center; gap: 10px;
+      font-size: .8rem; color: rgba(255,255,255,.5); padding: 4px 28px 4px 0;
+    }
+    .svc-incl-item::before { content: '✓'; color: var(--gold); font-size: .75rem; }
+
+    /* ─── EXPERIENCE ─────────────────────────────────── */
+    .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+
+    .tl { position: relative; padding-left: 36px; }
+    .tl::before {
+      content: ''; position: absolute; left: 0; top: 8px; bottom: 0;
+      width: 1px; background: linear-gradient(to bottom, var(--gold), transparent);
+    }
+    .tl-item {
+      position: relative; margin-bottom: 48px;
+      opacity: 0; transform: translateX(-18px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .tl-item.vis { opacity: 1; transform: none; }
+    .tl-dot {
+      position: absolute; left: -40px; top: 5px;
+      width: 9px; height: 9px; background: var(--gold); border-radius: 50%;
+      box-shadow: 0 0 0 4px rgba(var(--gold-rgb),.12);
+    }
+    .tl-per { font-size: .68rem; color: var(--gold); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 5px; }
+    .tl-role { font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: 3px; }
+    .tl-co { font-size: .85rem; color: var(--muted); margin-bottom: 10px; }
+    .tl-d { font-size: .85rem; color: var(--muted); line-height: 1.75; }
+
+    /* ─── SKILLS ─────────────────────────────────────── */
+    #skills { }
+    .sk-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; }
+
+    .sk-sub { font-size: .78rem; color: var(--muted); letter-spacing: .2em; text-transform: uppercase; margin-bottom: 32px; font-weight: 500; }
+
+    .sk-item { margin-bottom: 26px; }
+    .sk-h { display: flex; justify-content: space-between; margin-bottom: 9px; }
+    .sk-nm { font-size: .88rem; color: var(--text); font-weight: 500; }
+    .sk-pc { font-size: .8rem; color: var(--gold); }
+    .sk-trk { height: 2px; background: var(--border); overflow: hidden; }
+    .sk-fill {
+      height: 100%; width: 0;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold));
+      transition: width 1.5s cubic-bezier(.25,.46,.45,.94);
+      position: relative;
+    }
+    .sk-fill::after {
+      content: ''; position: absolute; right: 0; top: -3px;
+      width: 8px; height: 8px; background: var(--gold-light);
+      border-radius: 50%; box-shadow: 0 0 8px var(--gold);
+    }
+
+    .tools-g { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .t-chip {
+      padding: 12px 18px; background: var(--card); border: 1px solid var(--border);
+      font-size: .83rem; color: var(--text); display: flex; align-items: center; gap: 10px;
+      transition: border-color .3s, color .3s, transform .3s;
+    }
+    .t-chip:hover { border-color: var(--gold); color: var(--gold); transform: translateX(4px); }
+    .t-chip::before { content: '▸'; color: var(--gold); font-size: .65rem; }
+
+    .traits { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .trait {
+      padding: 7px 16px; border: 1px solid rgba(var(--gold-rgb),.25);
+      font-size: .8rem; color: var(--gold); transition: background .3s;
+    }
+    .trait:hover { background: var(--gold-dim); }
+
+    /* ─── VISUAL STATS STRIP ─────────────────────────── */
+    #stats-strip {
+      background: var(--text); padding: 72px 5vw;
+      display: grid; grid-template-columns: repeat(4, 1fr);
+      gap: 0; position: relative; overflow: hidden;
+    }
+    #stats-strip::before {
+      content: ''; position: absolute; inset: 0;
+      background: repeating-linear-gradient(
+        90deg,
+        rgba(255,255,255,.02) 0px,
+        rgba(255,255,255,.02) 1px,
+        transparent 1px,
+        transparent 120px
+      );
+      pointer-events: none;
+    }
+    .strip-item {
+      padding: 32px 40px; position: relative; z-index: 1;
+      border-right: 1px solid rgba(255,255,255,.06);
+      text-align: center;
+    }
+    .strip-item:last-child { border-right: none; }
+    .strip-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3.5rem, 6vw, 5.5rem);
+      color: var(--gold); line-height: 1; display: block;
+    }
+    .strip-lbl {
+      font-size: .72rem; letter-spacing: .22em; text-transform: uppercase;
+      color: rgba(255,255,255,.4); margin-top: 6px; display: block;
+    }
+    .strip-icon {
+      font-size: 1.4rem; display: block; margin-bottom: 10px;
+      opacity: .7;
+    }
+
+    /* ─── CONTACT ────────────────────────────────────── */
+    #contact {
+      min-height: 80vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    #contact::before {
+      content: 'LET\'S TALK'; font-family: 'Bebas Neue', sans-serif;
+      font-size: 22vw; color: rgba(var(--gold-rgb),.06);
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%,-50%); pointer-events: none; white-space: nowrap;
+    }
+    .ct-hl {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(3rem, 8vw, 7rem);
+      color: var(--white); line-height: 1; margin-bottom: 22px;
+    }
+    .ct-hl em { color: var(--gold); font-style: normal; }
+    .ct-sub { font-size: .95rem; color: var(--muted); margin-bottom: 52px; max-width: 480px; }
+    .ct-links { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    .ct-l {
+      display: flex; align-items: center; gap: 10px; padding: 14px 30px;
+      border: 1px solid var(--border); color: var(--text); text-decoration: none;
+      font-size: .85rem; transition: all .3s; position: relative; overflow: hidden;
+    }
+    .ct-l::before {
+      content: ''; position: absolute; inset: 0;
+      background: rgba(var(--gold-rgb),.07); transform: translateY(101%); transition: transform .3s;
+    }
+    .ct-l:hover { border-color: var(--gold); color: var(--gold); }
+    .ct-l:hover::before { transform: translateY(0); }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    footer {
+      padding: 28px 5vw; background: var(--dark);
+      border-top: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    }
+    .f-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: .15em; color: var(--white); }
+    .f-logo em { color: var(--gold); font-style: normal; }
+    .f-copy { font-size: .75rem; color: var(--muted); }
+
+    /* ─── DARK SECTION ──────────────────────────────── */
+    .sec-dark {
+      --black: #0b1120;
+      --black-rgb: 11,17,32;
+      --dark: #111827;
+      --dark-deep: #192038;
+      --card: #141e30;
+      --border: rgba(255,255,255,.09);
+      --text: #d4dced;
+      --muted: rgba(200,212,237,.48);
+      --white: #eef1f8;
+      background: #0b1120;
+      color: #d4dced;
+    }
+
+    /* ─── REVEAL ─────────────────────────────────────── */
+    .rv   { opacity:0; transform:translateY(28px); transition: opacity .7s ease, transform .7s ease; }
+    .rv-l { opacity:0; transform:translateX(-28px); transition: opacity .7s ease, transform .7s ease; }
+    .rv-r { opacity:0; transform:translateX(28px); transition: opacity .7s ease, transform .7s ease; }
+    .rv.vis, .rv-l.vis, .rv-r.vis { opacity:1; transform:none; }
+
+    .rv-s > * { opacity:0; transform:translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .rv-s.vis > *:nth-child(1) { opacity:1; transform:none; transition-delay:.05s; }
+    .rv-s.vis > *:nth-child(2) { opacity:1; transform:none; transition-delay:.15s; }
+    .rv-s.vis > *:nth-child(3) { opacity:1; transform:none; transition-delay:.25s; }
+    .rv-s.vis > *:nth-child(4) { opacity:1; transform:none; transition-delay:.35s; }
+    .rv-s.vis > *:nth-child(5) { opacity:1; transform:none; transition-delay:.45s; }
+    .rv-s.vis > *:nth-child(6) { opacity:1; transform:none; transition-delay:.55s; }
+
+    /* ─── CLIENT MAGAZINE ───────────────────────────── */
+    #portfolio { padding: 0; }
+    .cw-header { padding: 100px 5vw 60px; }
+
+    /* outer wrapper — height = (N+1)×100vh, drives sticky scroll */
+    .cw-wrap { position: relative; /* height set by JS */ }
+
+    /* sticky frame — one viewport, always in view while user scrolls */
+    .cw-panel {
+      position: sticky; top: 0;
+      height: 100vh; overflow: hidden;
+      background: #0b1120;
+    }
+
+    /* ── Canvas states ─────────────────────────────── */
+    /* each canvas = one full-viewport magazine spread  */
+    .cw-canvas {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transform: translateY(32px) scale(0.97);
+      transition: opacity .65s cubic-bezier(.22,1,.36,1),
+                  transform .65s cubic-bezier(.22,1,.36,1);
+      pointer-events: none; z-index: 1;
+    }
+    .cw-canvas.cw-active {
+      opacity: 1; transform: none;
+      pointer-events: auto; z-index: 2;
+    }
+    .cw-canvas.cw-past {
+      opacity: 0; transform: translateY(-32px) scale(0.97);
+      transition: opacity .45s ease, transform .45s ease;
+      z-index: 1;
+    }
+
+    /* ── Canvas element types ──────────────────────── */
+    .cv-wm {
+      position: absolute;
+      font-family: 'Bebas Neue', sans-serif; font-size: 14vw;
+      white-space: nowrap; color: rgba(255,255,255,.022);
+      bottom: -1vw; left: -0.5vw; line-height: 1;
+      pointer-events: none; user-select: none; z-index: 0;
+    }
+    .cv-sep {
+      position: absolute; top: 0; width: 1px; height: 100%;
+      background: rgba(255,255,255,.05); z-index: 1;
+    }
+    .cv-text { position: absolute; z-index: 3; }
+    .cv-img  { position: absolute; overflow: hidden; z-index: 2; }
+    .cv-img img {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+      transition: transform .6s ease;
+    }
+    .cv-img:hover img { transform: scale(1.035); }
+
+    /* placeholder tile */
+    .cv-ph {
+      background: rgba(255,255,255,.025);
+      border: 1px solid rgba(255,255,255,.055);
+    }
+
+    /* ── Canvas typography ─────────────────────────── */
+    .cv-n {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: .78rem; letter-spacing: .38em;
+      color: rgba(255,255,255,.2); display: block; margin-bottom: 16px;
+    }
+    .cv-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 4vw, 4.5rem);
+      color: #eef1f8; line-height: .93; margin-bottom: 20px;
+    }
+    .cv-rule {
+      display: block; width: 30px; height: 1px;
+      background: var(--gold); margin-bottom: 20px;
+    }
+    .cv-label {
+      font-size: .65rem; letter-spacing: .26em; text-transform: uppercase;
+      color: var(--gold); display: block; margin-bottom: 5px;
+    }
+    .cv-meta {
+      font-size: .65rem; letter-spacing: .18em; text-transform: uppercase;
+      color: rgba(255,255,255,.18); display: block; margin-bottom: 22px;
+    }
+    .cv-body {
+      font-size: .82rem; color: rgba(200,212,237,.4);
+      line-height: 1.88; font-weight: 300;
+    }
+    .cv-caption {
+      font-size: .62rem; letter-spacing: .2em; text-transform: uppercase;
+      color: rgba(255,255,255,.16);
+    }
+
+    /* ── Panel chrome ──────────────────────────────── */
+    /* client nav dots — right edge */
+    .cw-nav {
+      position: absolute; right: 2.2vw; top: 50%;
+      transform: translateY(-50%);
+      display: flex; flex-direction: column; gap: 10px; z-index: 30;
+    }
+    .cw-dot {
+      width: 4px; height: 4px; border-radius: 50%;
+      background: rgba(255,255,255,.18);
+      transition: background .35s, transform .35s;
+    }
+    .cw-dot.active { background: var(--gold); transform: scale(1.7); }
+
+    /* progress bar */
+    .cw-prog-bar {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 1px; background: rgba(255,255,255,.07); z-index: 20;
+    }
+    .cw-prog-fill {
+      height: 100%; width: 0%;
+      background: var(--gold); transition: width .08s linear;
+    }
+
+    /* scroll hint */
+    .cw-hint {
+      position: absolute; bottom: 28px; left: 50%;
+      transform: translateX(-50%);
+      font-size: .6rem; letter-spacing: .28em; text-transform: uppercase;
+      color: rgba(255,255,255,.2); pointer-events: none; z-index: 20;
+      display: flex; align-items: center; gap: 8px;
+      animation: cwhint 2.8s ease-in-out infinite;
+    }
+    .cw-hint::after { content: '↓'; color: var(--gold); }
+    @keyframes cwhint {
+      0%,100% { opacity:.2; transform:translateX(-50%) translateY(0); }
+      50%      { opacity:.55; transform:translateX(-50%) translateY(5px); }
+    }
+
+    .cw-panel {
+      position: sticky; top: 0;
+      height: 100vh; overflow: hidden;
+      background: #0b1120;
+    }
+
+    /* the canvas scrolls vertically inside the panel */
+    .cw-canvas {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      /* height set per-canvas via inline style */
+      will-change: transform;
+    }
+
+    /* all elements inside canvas are absolutely placed */
+    .cv-img {
+      position: absolute; overflow: hidden;
+    }
+    .cv-img img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform .6s ease;
+    }
+    .cv-img:hover img { transform: scale(1.03); }
+
+    .cv-text { position: absolute; }
+
+    .cv-n {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: .78rem; letter-spacing: .36em;
+      color: rgba(255,255,255,.2); display: block; margin-bottom: 14px;
+    }
+    .cv-headline {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.8rem, 5vw, 5.5rem);
+      color: #eef1f8; line-height: .95; margin-bottom: 18px;
+    }
+    .cv-rule {
+      display: block; width: 32px; height: 1px;
+      background: var(--gold); margin-bottom: 18px;
+    }
+    .cv-label {
+      font-size: .65rem; letter-spacing: .26em;
+      text-transform: uppercase; color: var(--gold);
+      display: block; margin-bottom: 6px;
+    }
+    .cv-meta {
+      font-size: .65rem; letter-spacing: .18em;
+      text-transform: uppercase; color: rgba(255,255,255,.2);
+      display: block; margin-bottom: 20px;
+    }
+    .cv-body {
+      font-size: .82rem; color: rgba(200,212,237,.44);
+      line-height: 1.88; font-weight: 300;
+    }
+    .cv-caption {
+      font-size: .65rem; letter-spacing: .18em;
+      text-transform: uppercase; color: rgba(255,255,255,.2);
+      margin-top: 10px; display: block;
+    }
+    .cv-credit {
+      font-size: .62rem; letter-spacing: .22em;
+      text-transform: uppercase; color: rgba(255,255,255,.1);
+    }
+
+    /* placeholder canvas for clients without work yet */
+    .cv-ph-center {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 16px;
+    }
+    .cv-ph-center span {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem; letter-spacing: .32em;
+      text-transform: uppercase; color: rgba(255,255,255,.1);
+    }
+    .cv-ph-center i {
+      display: block; width: 40px; height: 1px;
+      background: rgba(255,255,255,.07);
+    }
+
+    /* progress bar */
+    .cw-prog-bar {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 1px; background: rgba(255,255,255,.07); z-index: 20;
+    }
+    .cw-prog-fill {
+      height: 100%; width: 0%;
+      background: var(--gold); transition: width .08s linear;
+    }
+
+    /* scroll hint (first chapter only) */
+    .cw-hint {
+      position: absolute; bottom: 28px; left: 50%;
+      transform: translateX(-50%);
+      font-size: .6rem; letter-spacing: .28em;
+      text-transform: uppercase; color: rgba(255,255,255,.2);
+      pointer-events: none; z-index: 20;
+      display: flex; align-items: center; gap: 8px;
+      animation: cwhint 2.8s ease-in-out infinite;
+    }
+    .cw-hint::after { content: '↓'; color: var(--gold); }
+    @keyframes cwhint {
+      0%,100% { opacity:.2; transform:translateX(-50%) translateY(0); }
+      50%      { opacity:.55; transform:translateX(-50%) translateY(5px); }
+    }
+    .cw-chapter + .cw-chapter .cw-hint { display: none; }
+
+    .cw-chapter-sep {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(74,120,224,.16), transparent);
+    }
+
+    /* ─── RESPONSIVE ─────────────────────────────────── */
+    @media (max-width: 960px) {
+      nav { padding: 18px 5vw; }
+      .n-links, .n-hire { display: none; }
+      .burger { display: flex; }
+      section { padding: 72px 5vw; }
+      .cv-headline { font-size: 2.6rem; }
+      .cv-wm { font-size: 18vw; }
+      #about { grid-template-columns: 1fr; gap: 50px; }
+      .a-frame { max-width: 280px; }
+      .svc-grid { grid-template-columns: 1fr 1fr; }
+      .svc-grid .svc-card:first-child { grid-column: span 2; }
+      .svc-header { grid-template-columns: 1fr; gap: 20px; }
+      .exp-grid { grid-template-columns: 1fr; }
+      .sk-layout { grid-template-columns: 1fr; gap: 52px; }
+      .port-grid { grid-template-columns: 1fr 1fr; }
+      .port-card.wide { grid-column: span 2; aspect-ratio: 4/3; }
+      #stats-strip { grid-template-columns: repeat(2, 1fr); }
+      .strip-item:nth-child(2) { border-right: none; }
+    }
+    @media (max-width: 620px) {
+      .svc-grid { grid-template-columns: 1fr; }
+      .svc-grid .svc-card:first-child { grid-column: span 1; }
+      .svc-incl { padding: 22px 5vw; gap: 16px; flex-direction: column; align-items: flex-start; }
+      .a-stats { grid-template-columns: 1fr 1fr; }
+      #stats-strip { grid-template-columns: repeat(2, 1fr); padding: 52px 5vw; }
+      .strip-item { padding: 20px; }
+      /* Mobile: static flow, canvases stack */
+      .cw-wrap { height: auto !important; }
+      .cw-panel { position: static; height: auto; overflow: visible; padding: 0 5vw 52px; }
+      .cw-prog-bar, .cw-hint, .cw-nav { display: none; }
+      .cw-canvas {
+        position: static; opacity: 1 !important;
+        transform: none !important; pointer-events: auto;
+        display: flex; flex-direction: column; gap: 10px;
+        padding-bottom: 40px;
+        border-bottom: 1px solid rgba(255,255,255,.06);
+      }
+      .cv-wm, .cv-sep { display: none; }
+      .cv-text { position: static; width: 100% !important; padding: 20px 0 4px; }
+      .cv-img  { position: static; width: 100% !important; height: 58vw !important; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Cursors -->
+  <div id="cur"></div>
+  <div id="cur-ring"></div>
+
+  <!-- Preloader -->
+  <div id="pre">
+    <div class="pre-name">
+      <span style="animation-delay:.08s">U</span><span style="animation-delay:.16s">S</span><span style="animation-delay:.24s">M</span><span style="animation-delay:.32s">A</span><span style="animation-delay:.40s">N</span>
+    </div>
+    <div class="pre-sub">UM Graphics · Multimedia Specialist</div>
+    <div class="pre-bar"></div>
+  </div>
+
+  <!-- Nav -->
+  <nav id="nav">
+    <a href="#hero" class="n-logo">UM<em>.</em>Graphics</a>
+    <ul class="n-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#portfolio">Work</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#skills">Skills</a></li>
+    </ul>
+    <a href="#contact" class="n-hire">Hire Me</a>
+    <div class="burger" id="burger">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section id="hero">
+    <canvas id="hero-cv"></canvas>
+    <div id="hero-fade"></div>
+
+    <div class="h-content">
+      <div class="h-tag">Multimedia Specialist · Qatar</div>
+      <h1 class="h-name">
+        <span class="l">Muhammad</span>
+        <span class="l"><em class="g">Usman</em></span>
+        <span class="l">Majid</span>
+      </h1>
+      <p class="h-desc">
+        Graphic Designer &nbsp;·&nbsp; Video Editor &nbsp;·&nbsp; Social Media Marketer<br>
+        Crafting bold visual stories for brands that demand attention.
+      </p>
+      <div class="h-btns">
+        <a href="#portfolio" class="btn-g">View My Work</a>
+        <a href="#contact"   class="btn-o">Let's Talk</a>
+      </div>
+    </div>
+
+    <div class="h-scroll">
+      <span>Scroll</span>
+      <div class="s-line"></div>
+    </div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="mq">
+    <div class="mq-track">
+      <div class="mq-item">Graphic Design</div>
+      <div class="mq-item">Video Editing</div>
+      <div class="mq-item">Social Media Marketing</div>
+      <div class="mq-item">Motion Graphics</div>
+      <div class="mq-item">Branding</div>
+      <div class="mq-item">Content Creation</div>
+      <div class="mq-item">IT Support</div>
+      <div class="mq-item">Reels &amp; Shorts</div>
+      <div class="mq-item">Videography</div>
+      <div class="mq-item">Graphic Design</div>
+      <div class="mq-item">Video Editing</div>
+      <div class="mq-item">Social Media Marketing</div>
+      <div class="mq-item">Motion Graphics</div>
+      <div class="mq-item">Branding</div>
+      <div class="mq-item">Content Creation</div>
+      <div class="mq-item">IT Support</div>
+      <div class="mq-item">Reels &amp; Shorts</div>
+      <div class="mq-item">Videography</div>
+    </div>
+  </div>
+
+  <!-- About -->
+  <section id="about" class="sec-dark">
+    <div class="rv-l">
+      <div class="a-frame">
+        <img src="DP.jpeg" alt="Muhammad Usman Majid" style="width: 100%; height: 100%; object-fit: cover;">
+      </div>
+
+    </div>
+    <div class="rv-r">
+      <div class="sl">About Me</div>
+      <h2 class="st">Where<br><span class="dim">Design</span><br>Meets Tech</h2>
+
+      <p class="a-vision">A creative professional with <em>6+ years</em> at the intersection of design and technology — building a career spanning <strong>graphic design, video editing, motion graphics, social media marketing, and IT support</strong>, often across the same project, for the same client. I don't specialise in one lane. I cover the whole road.<br><br>Worked with clients across <em>Qatar and Pakistan</em> — from luxury fashion labels to management consultancies, handling everything from first logo to final reel. Every brief is different. Every deliverable is deliberate.<br><br>I've also taught graphic design and freelancing professionally — because <strong>the best way to truly master a craft is to teach it.</strong> That discipline shows in everything I produce.</p>
+
+      <div class="a-specs">
+        <div class="a-spec">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>
+            <path d="M15.5 8.5a5 5 0 010 7M8.5 8.5a5 5 0 000 7"/>
+          </svg>
+          <span class="a-spec-nm">Graphic Design</span>
+        </div>
+        <div class="a-spec">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="5" width="15" height="14" rx="2"/>
+            <path d="M17 9l5-3v12l-5-3V9z"/>
+          </svg>
+          <span class="a-spec-nm">Video Editing</span>
+        </div>
+        <div class="a-spec">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+            <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"/>
+          </svg>
+          <span class="a-spec-nm">Social Media</span>
+        </div>
+        <div class="a-spec">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3l1.5 4.5H18l-3.75 2.75 1.5 4.5L12 12l-3.75 2.75 1.5-4.5L6 7.5h4.5L12 3z"/>
+            <path d="M5 19l2-2M19 19l-2-2M12 21v-3"/>
+          </svg>
+          <span class="a-spec-nm">Motion Graphics</span>
+        </div>
+        <div class="a-spec">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+            <circle cx="8" cy="12" r="2.5"/>
+          </svg>
+          <span class="a-spec-nm">Videography</span>
+        </div>
+        <div class="a-spec">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4 9.5-9.5z"/>
+          </svg>
+          <span class="a-spec-nm">Brand Identity</span>
+        </div>
+      </div>
+
+      <div class="a-stats-row">
+        <div class="a-stat"><span class="a-stat-n">6+</span><span class="a-stat-l">Years Exp.</span></div>
+        <div class="a-stat"><span class="a-stat-n">10+</span><span class="a-stat-l">Clients</span></div>
+        <div class="a-stat"><span class="a-stat-n">200+</span><span class="a-stat-l">Designs</span></div>
+      </div>
+
+      <div class="a-ctas">
+        <a href="#contact" class="btn-g">Get In Touch</a>
+        <a href="Usman.pdf" download class="btn-o">Download CV</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio — Client Magazine (sticky flip) -->
+  <section id="portfolio" class="sec-dark">
+    <div class="cw-header rv">
+      <div class="sl">Selected Work</div>
+      <h2 class="st">Client <span class="dim">Work</span></h2>
+    </div>
+
+    <!-- cw-wrap height = (N+1)×100vh set by JS                      -->
+    <!-- sticky panel = 100vh — page freezes, canvases flip on scroll -->
+    <div class="cw-wrap">
+      <div class="cw-panel">
+
+        <!-- ── Canvas 01: Ayah's Kaftan ─────────────────
+             Layout: editorial left column (0–25vw) +
+             dominant portrait upper-right (26vw–100vw, 0–62vh) +
+             three images bottom-right (26vw–95vw, 66vh–98vh)
+        ─────────────────────────────────────────────── -->
+        <div class="cw-canvas cw-active">
+          <div class="cv-wm">AYAH'S KAFTAN</div>
+          <div class="cv-sep" style="left:25vw;"></div>
+
+          <!-- left: text column -->
+          <div class="cv-text" style="top:10vh;left:5vw;width:18vw;">
+            <span class="cv-n">01 / 03</span>
+            <div class="cv-headline">Ayah's<br>Kaftan</div>
+            <span class="cv-rule"></span>
+            <span class="cv-label">Luxury Fashion</span>
+            <span class="cv-meta">Nov 2024 — Present · Qatar</span>
+            <p class="cv-body">High-end social media posts, motion reels, and seasonal product catalogues for a luxury clothing brand — every visual aligned to the brand's aesthetic and campaign calendar.</p>
+          </div>
+
+          <!-- upper right: hero portrait -->
+          <div class="cv-img" style="top:0;left:26vw;width:69vw;height:62vh;">
+            <img src="portflio/Artboard 1.jpg" alt="Ayahs Kaftan">
+          </div>
+
+          <!-- caption between hero and bottom row -->
+          <div class="cv-text" style="top:63.5vh;left:26vw;">
+            <span class="cv-caption">Social Media &nbsp;·&nbsp; Motion Reels &nbsp;·&nbsp; Product Catalogue</span>
+          </div>
+
+          <!-- bottom row: three images -->
+          <div class="cv-img" style="top:66vh;left:26vw;width:23vw;height:32vh;">
+            <img src="portflio/Artboard 7.png" alt="Ayahs Kaftan" loading="lazy">
+          </div>
+          <div class="cv-img" style="top:66vh;left:50vw;width:23vw;height:32vh;">
+            <img src="portflio/Artboard 20.png" alt="Ayahs Kaftan" loading="lazy">
+          </div>
+          <div class="cv-img" style="top:66vh;left:74vw;width:21vw;height:32vh;">
+            <img src="portflio/Artboard 25.png" alt="Ayahs Kaftan" loading="lazy">
+          </div>
+        </div>
+
+        <!-- ── Canvas 02: placeholder ─────────────────── -->
+        <div class="cw-canvas">
+          <div class="cv-wm">CLIENT TWO</div>
+          <div class="cv-sep" style="left:25vw;"></div>
+
+          <div class="cv-text" style="top:10vh;left:5vw;width:18vw;">
+            <span class="cv-n">02 / 03</span>
+            <div class="cv-headline">Client<br>Two</div>
+            <span class="cv-rule"></span>
+            <span class="cv-label">Category</span>
+            <span class="cv-meta">Year · Location</span>
+            <p class="cv-body">Project description goes here.</p>
+          </div>
+
+          <div class="cv-img cv-ph" style="top:0;left:26vw;width:69vw;height:62vh;"></div>
+          <div class="cv-img cv-ph" style="top:66vh;left:26vw;width:23vw;height:32vh;"></div>
+          <div class="cv-img cv-ph" style="top:66vh;left:50vw;width:23vw;height:32vh;"></div>
+          <div class="cv-img cv-ph" style="top:66vh;left:74vw;width:21vw;height:32vh;"></div>
+        </div>
+
+        <!-- ── Canvas 03: placeholder ─────────────────── -->
+        <div class="cw-canvas">
+          <div class="cv-wm">CLIENT THREE</div>
+          <div class="cv-sep" style="left:25vw;"></div>
+
+          <div class="cv-text" style="top:10vh;left:5vw;width:18vw;">
+            <span class="cv-n">03 / 03</span>
+            <div class="cv-headline">Client<br>Three</div>
+            <span class="cv-rule"></span>
+            <span class="cv-label">Category</span>
+            <span class="cv-meta">Year · Location</span>
+            <p class="cv-body">Project description goes here.</p>
+          </div>
+
+          <div class="cv-img cv-ph" style="top:0;left:26vw;width:69vw;height:62vh;"></div>
+          <div class="cv-img cv-ph" style="top:66vh;left:26vw;width:23vw;height:32vh;"></div>
+          <div class="cv-img cv-ph" style="top:66vh;left:50vw;width:23vw;height:32vh;"></div>
+          <div class="cv-img cv-ph" style="top:66vh;left:74vw;width:21vw;height:32vh;"></div>
+        </div>
+
+        <!-- panel chrome -->
+        <div class="cw-nav">
+          <div class="cw-dot active"></div>
+          <div class="cw-dot"></div>
+          <div class="cw-dot"></div>
+        </div>
+        <div class="cw-prog-bar"><div class="cw-prog-fill"></div></div>
+        <div class="cw-hint">Scroll</div>
+
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Experience -->
+  <section id="experience">
+    <div class="rv">
+      <div class="sl">Career Path</div>
+      <h2 class="st">Experience</h2>
+    </div>
+    <div class="exp-grid">
+      <div class="tl">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-per">Aug 2025 – Present</div>
+          <div class="tl-role">Creative & IT Support Assistant</div>
+          <div class="tl-co">Nourish Center & Nourish Café — Qatar</div>
+          <p class="tl-d">Designed social media posts and branding content on-site and remotely for both brands.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-per">May 2025 – Present</div>
+          <div class="tl-role">Videographer & Video Editor</div>
+          <div class="tl-co">BMC – Belmontstreet Management Consultancy</div>
+          <p class="tl-d">Captured and edited high-quality video for events, promotional campaigns, and social media. Full post-production and motion graphics pipeline.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-per">Jan – Jul 2025</div>
+          <div class="tl-role">Multimedia Production Specialist</div>
+          <div class="tl-co">Teq Booster — Qatar (6 months)</div>
+          <p class="tl-d">Created complete branding packages, designed trend-based social visuals, edited reels, and managed digital campaigns with focus on Instagram growth.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-per">Nov 2024 – Present</div>
+          <div class="tl-role">Graphic Designer & Video Editor</div>
+          <div class="tl-co">Ayahs Kaftan — Freelance Remote</div>
+          <p class="tl-d">Designed high-end social media posts and motion reels for a luxury clothing brand, aligned with seasonal campaigns and marketing goals.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-per">Jan 2023 – Nov 2024</div>
+          <div class="tl-role">Graphic Designer & Video Editor</div>
+          <div class="tl-co">ScriptExp</div>
+          <p class="tl-d">Designed social media posts, logos, and digital ads. Handled reel editing and branded content collaborating with marketing teams.</p>
+        </div>
+      </div>
+      <div class="tl">
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-per">Jan 2021 – Oct 2025</div>
+          <div class="tl-role">Graphic Designer, SMM & IT Support</div>
+          <div class="tl-co">Adeel Traders — Wah Cantt</div>
+          <p class="tl-d">Created ads, brochures, logos, and packaging. Managed social media platforms with regular campaigns and provided IT support including data management.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-per">Apr 2020 – Nov 2024</div>
+          <div class="tl-role">Graphic Designer & IT Instructor</div>
+          <div class="tl-co">POF Welfare Computer Centre — Wah Cantt</div>
+          <p class="tl-d">Conducted in-person and online training in Graphic Design, Office Automation, and Freelancing. Contributed to institute branding and outreach.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-per">Sep 2021 – Feb 2022</div>
+          <div class="tl-role">Intern — Lab Maintenance & Data Entry</div>
+          <div class="tl-co">POF Welfare Computer Centre — Wah Cantt</div>
+          <p class="tl-d">Assisted in graphic design and IT training sessions, supported lab setup, and handled data entry during project-based internship.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-per">Apr 2018 – Oct 2024</div>
+          <div class="tl-role">Graphics & IT Support Assistant</div>
+          <div class="tl-co">Shop 86 — Wah Cantt</div>
+          <p class="tl-d">Designed print materials, edited event videos, and handled data entry and print file preparation on-site and remotely.</p>
+        </div>
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-per">2019 – Present</div>
+          <div class="tl-role">Graphic Designer & Content Creator</div>
+          <div class="tl-co">UM Graphics — Self-Run Brand</div>
+          <p class="tl-d">Managed Instagram content, produced video reels and motion graphics, building a strong online presence and attracting freelance and teaching opportunities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills -->
+  <section id="skills" class="sec-dark">
+    <div class="rv">
+      <div class="sl">Expertise</div>
+      <h2 class="st">Skills &amp;<br>Tools</h2>
+    </div>
+    <div class="sk-layout">
+      <div>
+        <p class="sk-sub">Professional Skills</p>
+        <div class="sk-item">
+          <div class="sk-h"><span class="sk-nm">Adobe Photoshop</span><span class="sk-pc">90%</span></div>
+          <div class="sk-trk"><div class="sk-fill" data-w="90"></div></div>
+        </div>
+        <div class="sk-item">
+          <div class="sk-h"><span class="sk-nm">Adobe Illustrator</span><span class="sk-pc">80%</span></div>
+          <div class="sk-trk"><div class="sk-fill" data-w="80"></div></div>
+        </div>
+        <div class="sk-item">
+          <div class="sk-h"><span class="sk-nm">Adobe Premiere Pro</span><span class="sk-pc">88%</span></div>
+          <div class="sk-trk"><div class="sk-fill" data-w="88"></div></div>
+        </div>
+        <div class="sk-item">
+          <div class="sk-h"><span class="sk-nm">Canva</span><span class="sk-pc">95%</span></div>
+          <div class="sk-trk"><div class="sk-fill" data-w="95"></div></div>
+        </div>
+        <div class="sk-item">
+          <div class="sk-h"><span class="sk-nm">CapCut</span><span class="sk-pc">85%</span></div>
+          <div class="sk-trk"><div class="sk-fill" data-w="85"></div></div>
+        </div>
+        <div class="sk-item">
+          <div class="sk-h"><span class="sk-nm">Social Media Marketing</span><span class="sk-pc">90%</span></div>
+          <div class="sk-trk"><div class="sk-fill" data-w="90"></div></div>
+        </div>
+        <div class="sk-item">
+          <div class="sk-h"><span class="sk-nm">Video Production</span><span class="sk-pc">87%</span></div>
+          <div class="sk-trk"><div class="sk-fill" data-w="87"></div></div>
+        </div>
+      </div>
+      <div>
+        <p class="sk-sub">Tools & Software</p>
+        <div class="tools-g">
+          <div class="t-chip">MS Word</div>
+          <div class="t-chip">MS Excel</div>
+          <div class="t-chip">PowerPoint</div>
+          <div class="t-chip">MS Access</div>
+          <div class="t-chip">Filmora</div>
+          <div class="t-chip">PHP &amp; MySQL</div>
+          <div class="t-chip">Windows Server</div>
+          <div class="t-chip">Networking</div>
+        </div>
+        <p class="sk-sub" style="margin-top:40px;">Personal Traits</p>
+        <div class="traits">
+          <span class="trait">Creativity</span>
+          <span class="trait">Organized</span>
+          <span class="trait">Team Player</span>
+          <span class="trait">Flexible</span>
+          <span class="trait">Time Management</span>
+          <span class="trait">Communication</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats Strip -->
+  <div id="stats-strip">
+    <div class="strip-item rv">
+      <span class="strip-icon">🎨</span>
+      <span class="strip-num">200+</span>
+      <span class="strip-lbl">Designs Created</span>
+    </div>
+    <div class="strip-item rv">
+      <span class="strip-icon">🎬</span>
+      <span class="strip-num">100+</span>
+      <span class="strip-lbl">Videos Edited</span>
+    </div>
+    <div class="strip-item rv">
+      <span class="strip-icon">📱</span>
+      <span class="strip-num">15+</span>
+      <span class="strip-lbl">Brands Managed</span>
+    </div>
+  </div>
+
+  <!-- Contact -->
+  <section id="contact" class="sec-dark">
+    <div class="rv">
+      <h2 class="ct-hl">Let's Create<br><em>Something Bold</em></h2>
+      <p class="ct-sub">Available for freelance projects, full-time roles, and creative collaborations. Based in Qatar.</p>
+    </div>
+    <div class="ct-links rv">
+      <a href="mailto:usman.umgraphics10@gmail.com" class="ct-l">
+        <span>✉</span> usman.umgraphics10@gmail.com
+      </a>
+      <a href="tel:+97470394552" class="ct-l">
+        <span>☎</span> +974 7039 4552
+      </a>
+      <a href="https://instagram.com/u_m__graphics" target="_blank" class="ct-l">
+        <span>◎</span> @u_m__graphics
+      </a>
+      <a href="#" class="ct-l">
+        <span>f</span> @umgraphics10
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="f-logo">UM<em>.</em>Graphics</div>
+    <div class="f-copy">© 2025 Muhammad Usman Majid · All rights reserved.</div>
+  </footer>
+
+  <script>
+    // ── PRELOADER ──────────────────────────────────────
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const pre = document.getElementById('pre');
+        pre.classList.add('out');
+        setTimeout(() => pre.style.display = 'none', 600);
+      }, 2400);
+    });
+
+    // ── CURSOR ─────────────────────────────────────────
+    const cur  = document.getElementById('cur');
+    const ring = document.getElementById('cur-ring');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+
+    document.addEventListener('mousemove', e => {
+      mx = e.clientX; my = e.clientY;
+      cur.style.left = mx + 'px';
+      cur.style.top  = my + 'px';
+    });
+
+    (function tick() {
+      rx += (mx - rx) * .11;
+      ry += (my - ry) * .11;
+      ring.style.left = rx + 'px';
+      ring.style.top  = ry + 'px';
+      requestAnimationFrame(tick);
+    })();
+
+    document.querySelectorAll('a,button,.svc-card,.cert-c,.s-card,.t-chip,.trait,.port-card,.strip-item').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+    });
+
+    // ── NAV SCROLL ─────────────────────────────────────
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('sc', scrollY > 50));
+
+    // ── HERO CANVAS PARTICLES ──────────────────────────
+    const cv  = document.getElementById('hero-cv');
+    const ctx = cv.getContext('2d');
+    const goldRGB = getComputedStyle(document.documentElement).getPropertyValue('--gold-rgb').trim();
+    let pts = [], animStarted = false;
+
+    function resize() {
+      cv.width  = window.innerWidth;
+      cv.height = document.getElementById('hero').offsetHeight || window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', () => { resize(); pts = []; for (let i = 0; i < 160; i++) pts.push(mkPt()); });
+
+    function mkPt() {
+      return {
+        x: Math.random() * cv.width,
+        y: Math.random() * cv.height,
+        r: Math.random() * 2 + .4,
+        vx: (Math.random() - .5) * .32,
+        vy: (Math.random() - .5) * .32,
+        a: Math.random() * .6 + .4
+      };
+    }
+
+    for (let i = 0; i < 160; i++) pts.push(mkPt());
+
+    function drawPts() {
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      pts.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > cv.width || p.y < 0 || p.y > cv.height) {
+          Object.assign(p, mkPt());
+        }
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${goldRGB},${p.a})`;
+        ctx.fill();
+      });
+
+      for (let i = 0; i < pts.length; i++) {
+        for (let j = i + 1; j < pts.length; j++) {
+          const d = Math.hypot(pts[i].x - pts[j].x, pts[i].y - pts[j].y);
+          if (d < 160) {
+            ctx.beginPath();
+            ctx.moveTo(pts[i].x, pts[i].y);
+            ctx.lineTo(pts[j].x, pts[j].y);
+            ctx.strokeStyle = `rgba(${goldRGB},${.35 * (1 - d / 160)})`;
+            ctx.lineWidth = .6;
+            ctx.stroke();
+          }
+        }
+      }
+      requestAnimationFrame(drawPts);
+    }
+    drawPts();
+
+    // ── INTERSECTION OBSERVER ──────────────────────────
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('vis');
+        e.target.querySelectorAll('.sk-fill').forEach(b => {
+          setTimeout(() => b.style.width = b.dataset.w + '%', 250);
+        });
+      });
+    }, { threshold: .14 });
+
+    document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-s,.tl-item').forEach(el => obs.observe(el));
+
+    const skillSec = document.getElementById('skills');
+    const skObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.querySelectorAll('.sk-fill').forEach((b, i) => {
+            setTimeout(() => b.style.width = b.dataset.w + '%', 200 + i * 100);
+          });
+        }
+      });
+    }, { threshold: .2 });
+    if (skillSec) skObs.observe(skillSec);
+
+    document.querySelectorAll('.tl-item').forEach((el, i) => {
+      el.style.transitionDelay = ((i % 5) * .1) + 's';
+    });
+
+    // ── CLIENT MAGAZINE: sticky flip ──────────────────
+    (function initMagazine() {
+      const wrap    = document.querySelector('.cw-wrap');
+      if (!wrap) return;
+
+      const canvases = [...wrap.querySelectorAll('.cw-canvas')];
+      const dots     = [...wrap.querySelectorAll('.cw-dot')];
+      const fill     = wrap.querySelector('.cw-prog-fill');
+      const N        = canvases.length;
+      let   active   = 0;
+
+      // (N+1) × 100vh: each client gets one full viewport of scroll
+      wrap.style.height = ((N + 1) * 100) + 'vh';
+
+      function update() {
+        if (window.innerWidth <= 620) return;
+        const rect     = wrap.getBoundingClientRect();
+        const ph       = window.innerHeight;
+        const scrollable = wrap.offsetHeight - ph;
+        if (scrollable <= 0 || rect.top > ph || rect.bottom < 0) return;
+
+        const progress = Math.min(1, Math.max(0, -rect.top / scrollable));
+        if (fill) fill.style.width = (progress * 100) + '%';
+
+        // each client zone = 1/N of total progress
+        const idx = Math.min(N - 1, Math.floor(progress * N));
+
+        if (idx === active) return;
+
+        // flip classes: past = exited upward, active = in view, (none) = waiting below
+        canvases.forEach((c, i) => {
+          c.classList.toggle('cw-active', i === idx);
+          c.classList.toggle('cw-past',   i < idx);
+          if (i > idx) c.classList.remove('cw-active', 'cw-past');
+        });
+        dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+
+        active = idx;
+      }
+
+      update();
+      window.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+    })();
+  </script>
+</body>
+</html>

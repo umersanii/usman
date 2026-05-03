@@ -1,0 +1,18 @@
+# Media and archive files not included for now
+*.mp4
+*.MP4
+*.jpg
+*.JPG
+*.jpeg
+*.JPEG
+*.png
+*.PNG
+*.gif
+*.GIF
+*.pdf
+*.PDF
+*.rar
+*.RAR
+
+# Optional portfolio media folder
+portflio/
