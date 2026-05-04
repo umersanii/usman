@@ -557,28 +557,90 @@
     .svc-incl-item::before { content: '✓'; color: var(--gold); font-size: .75rem; }
 
     /* ─── EXPERIENCE ─────────────────────────────────── */
-    .exp-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; }
+    .exp-body {
+      display: grid; grid-template-columns: 1fr 1.45fr;
+      gap: 80px; align-items: start; margin-top: 60px;
+    }
 
-    .tl { position: relative; padding-left: 36px; }
-    .tl::before {
-      content: ''; position: absolute; left: 0; top: 8px; bottom: 0;
-      width: 1px; background: linear-gradient(to bottom, var(--gold), transparent);
+    /* left spine */
+    .exp-tl { position: relative; padding-left: 32px; }
+    .exp-tl::before {
+      content: ''; position: absolute; left: 5px; top: 4px; bottom: 4px; width: 1px;
+      background: linear-gradient(to bottom, transparent, var(--gold) 5%, var(--gold) 95%, transparent);
     }
-    .tl-item {
-      position: relative; margin-bottom: 48px;
-      opacity: 0; transform: translateX(-18px);
-      transition: opacity .6s ease, transform .6s ease;
+
+    /* timeline node */
+    .tl-node {
+      position: relative; padding: 16px 0 16px 20px;
+      border-left: 2px solid transparent; margin-left: -2px;
+      cursor: pointer; transition: border-color .25s;
+      opacity: 0; transform: translateX(-12px);
+      transition: border-color .25s, opacity .5s ease, transform .5s ease;
     }
-    .tl-item.vis { opacity: 1; transform: none; }
-    .tl-dot {
-      position: absolute; left: -40px; top: 5px;
-      width: 9px; height: 9px; background: var(--gold); border-radius: 50%;
-      box-shadow: 0 0 0 4px rgba(var(--gold-rgb),.12);
+    .tl-node.vis { opacity: 1; transform: none; }
+    .tl-node.active { border-left-color: var(--gold); }
+
+    .tl-nd {
+      position: absolute; left: -29px; top: 22px;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--card); border: 2px solid var(--border);
+      transition: background .25s, border-color .25s, box-shadow .25s;
     }
-    .tl-per { font-size: .68rem; color: var(--gold); letter-spacing: .15em; text-transform: uppercase; margin-bottom: 5px; }
-    .tl-role { font-size: 1.05rem; font-weight: 600; color: var(--white); margin-bottom: 3px; }
-    .tl-co { font-size: .85rem; color: var(--muted); margin-bottom: 10px; }
-    .tl-d { font-size: .85rem; color: var(--muted); line-height: 1.75; }
+    .tl-node:hover .tl-nd,
+    .tl-node.active .tl-nd {
+      background: var(--gold); border-color: var(--gold);
+      box-shadow: 0 0 0 5px rgba(var(--gold-rgb),.12);
+    }
+    .tl-node-per {
+      font-size: .6rem; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 5px; transition: color .25s;
+    }
+    .tl-node:hover .tl-node-per,
+    .tl-node.active .tl-node-per { color: var(--gold); }
+    .tl-node-role {
+      font-size: .92rem; font-weight: 600; color: var(--text);
+      line-height: 1.3; transition: color .25s; margin-bottom: 3px;
+    }
+    .tl-node.active .tl-node-role { color: var(--white); }
+    .tl-node-co { font-size: .75rem; color: var(--muted); }
+
+    /* right: detail panel */
+    .exp-detail {
+      position: sticky; top: 100px;
+      transition: opacity .2s ease, transform .2s ease;
+    }
+    .exp-detail.swapping { opacity: 0; transform: translateY(10px); }
+
+    .exp-d-per {
+      font-size: .63rem; color: var(--gold);
+      letter-spacing: .16em; text-transform: uppercase; margin-bottom: 10px;
+    }
+    .exp-d-badge {
+      display: inline-block; margin-left: 12px;
+      font-size: .58rem; color: var(--gold); letter-spacing: .1em;
+      border: 1px solid rgba(var(--gold-rgb),.35);
+      padding: 2px 10px; vertical-align: middle;
+    }
+    .exp-d-role {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2rem, 3.2vw, 2.8rem);
+      color: var(--white); line-height: 1.05;
+      margin-bottom: 8px; letter-spacing: .04em;
+    }
+    .exp-d-co { font-size: .85rem; color: var(--muted); }
+    .exp-d-div { width: 44px; height: 2px; background: var(--gold); margin: 28px 0; }
+    .exp-d-desc {
+      font-size: .92rem; line-height: 1.9; color: var(--muted);
+      margin-bottom: 32px; font-weight: 300;
+    }
+    .exp-d-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+    .exp-d-tag {
+      padding: 6px 14px; font-size: .68rem; font-weight: 500;
+      border: 1px solid rgba(var(--gold-rgb),.25); color: var(--gold);
+      letter-spacing: .08em; text-transform: uppercase; cursor: default;
+      transition: background .2s, border-color .2s;
+    }
+    .exp-d-tag:hover { background: rgba(var(--gold-rgb),.08); border-color: rgba(var(--gold-rgb),.5); }
 
     /* ─── SKILLS ─────────────────────────────────────── */
     #skills { }
@@ -622,7 +684,7 @@
     /* ─── VISUAL STATS STRIP ─────────────────────────── */
     #stats-strip {
       background: var(--text); padding: 72px 5vw;
-      display: grid; grid-template-columns: repeat(4, 1fr);
+      display: grid; grid-template-columns: repeat(3, 1fr);
       gap: 0; position: relative; overflow: hidden;
     }
     #stats-strip::before {
@@ -971,6 +1033,87 @@
       background: linear-gradient(90deg, transparent, rgba(74,120,224,.16), transparent);
     }
 
+    /* ─── SKIP LINK ─────────────────────────────────── */
+    .skip-link {
+      position: absolute; top: -100%; left: 1rem;
+      background: var(--gold); color: #fff;
+      padding: 8px 20px; font-size: .8rem; font-weight: 600;
+      letter-spacing: .12em; text-transform: uppercase;
+      z-index: 99999; transition: top .2s; text-decoration: none;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* ─── FOCUS STATES ───────────────────────────────── */
+    *:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+    }
+
+    /* ─── REDUCED MOTION ─────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    /* ─── MOBILE MENU ────────────────────────────────── */
+    .mobile-menu {
+      position: fixed; inset: 0; z-index: 998;
+      background: rgba(var(--black-rgb), .97);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 8px;
+      opacity: 0; pointer-events: none;
+      transition: opacity .35s ease;
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: auto; }
+    .mobile-menu a {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 9vw, 3.8rem);
+      letter-spacing: .14em; color: var(--white);
+      text-decoration: none; padding: 8px 0;
+      transition: color .3s, transform .3s;
+      transform: translateY(20px); opacity: 0;
+    }
+    .mobile-menu.open a {
+      transform: none; opacity: 1;
+    }
+    .mobile-menu.open a:nth-child(1) { transition-delay: .08s; }
+    .mobile-menu.open a:nth-child(2) { transition-delay: .14s; }
+    .mobile-menu.open a:nth-child(3) { transition-delay: .20s; }
+    .mobile-menu.open a:nth-child(4) { transition-delay: .26s; }
+    .mobile-menu a:hover { color: var(--gold); }
+    .mobile-menu .m-hire {
+      margin-top: 20px; padding: 13px 48px;
+      border: 1px solid var(--gold); color: var(--gold);
+      font-size: 1rem; letter-spacing: .18em;
+      transition: background .3s, color .3s;
+    }
+    .mobile-menu .m-hire:hover { background: var(--gold); color: var(--black); }
+
+    /* burger open state */
+    .burger.open span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .burger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .burger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
+
+    /* ─── STRIP SVG ──────────────────────────────────── */
+    .strip-svg {
+      width: 28px; height: 28px; display: block;
+      margin: 0 auto 10px; opacity: .55;
+      stroke: #fff; fill: none;
+      stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+
+    /* ─── CONTACT ICON ───────────────────────────────── */
+    .ct-icon {
+      width: 16px; height: 16px; flex-shrink: 0;
+      stroke: currentColor; fill: none;
+      stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+    }
+
     /* ─── RESPONSIVE ─────────────────────────────────── */
     @media (max-width: 960px) {
       nav { padding: 18px 5vw; }
@@ -984,19 +1127,23 @@
       .svc-grid { grid-template-columns: 1fr 1fr; }
       .svc-grid .svc-card:first-child { grid-column: span 2; }
       .svc-header { grid-template-columns: 1fr; gap: 20px; }
-      .exp-grid { grid-template-columns: 1fr; }
+      .exp-body { grid-template-columns: 1fr; gap: 40px; }
+      .exp-detail { position: static; }
       .sk-layout { grid-template-columns: 1fr; gap: 52px; }
       .port-grid { grid-template-columns: 1fr 1fr; }
       .port-card.wide { grid-column: span 2; aspect-ratio: 4/3; }
-      #stats-strip { grid-template-columns: repeat(2, 1fr); }
-      .strip-item:nth-child(2) { border-right: none; }
+      #stats-strip { grid-template-columns: repeat(3, 1fr); }
     }
     @media (max-width: 620px) {
+      .exp-body { margin-top: 36px; }
+      .exp-d-role { font-size: 1.8rem; }
       .svc-grid { grid-template-columns: 1fr; }
       .svc-grid .svc-card:first-child { grid-column: span 1; }
       .svc-incl { padding: 22px 5vw; gap: 16px; flex-direction: column; align-items: flex-start; }
       .a-stats { grid-template-columns: 1fr 1fr; }
-      #stats-strip { grid-template-columns: repeat(2, 1fr); padding: 52px 5vw; }
+      #stats-strip { grid-template-columns: repeat(1, 1fr); padding: 40px 5vw; }
+      .strip-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,.06); }
+      .strip-item:last-child { border-bottom: none; }
       .strip-item { padding: 20px; }
       /* Mobile: static flow, canvases stack */
       .cw-wrap { height: auto !important; }
@@ -1018,6 +1165,18 @@
 
 <body>
 
+  <!-- Skip link -->
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobile-menu" role="dialog" aria-label="Navigation menu">
+    <a href="#about">About</a>
+    <a href="#portfolio">Work</a>
+    <a href="#experience">Experience</a>
+    <a href="#skills">Skills</a>
+    <a href="#contact" class="m-hire">Hire Me</a>
+  </div>
+
   <!-- Cursors -->
   <div id="cur"></div>
   <div id="cur-ring"></div>
@@ -1032,7 +1191,7 @@
   </div>
 
   <!-- Nav -->
-  <nav id="nav">
+  <nav id="nav" role="navigation" aria-label="Primary navigation">
     <a href="#hero" class="n-logo">UM<em>.</em>Graphics</a>
     <ul class="n-links">
       <li><a href="#about">About</a></li>
@@ -1041,12 +1200,13 @@
       <li><a href="#skills">Skills</a></li>
     </ul>
     <a href="#contact" class="n-hire">Hire Me</a>
-    <div class="burger" id="burger">
+    <button class="burger" id="burger" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-menu">
       <span></span><span></span><span></span>
-    </div>
+    </button>
   </nav>
 
   <!-- Hero -->
+  <span id="main" style="position:absolute;top:0;" aria-hidden="true"></span>
   <section id="hero">
     <canvas id="hero-cv"></canvas>
     <div id="hero-fade"></div>
@@ -1282,81 +1442,51 @@
       <div class="sl">Career Path</div>
       <h2 class="st">Experience</h2>
     </div>
-    <div class="exp-grid">
-      <div class="tl">
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <div class="tl-per">Aug 2025 – Present</div>
-          <div class="tl-role">Creative & IT Support Assistant</div>
-          <div class="tl-co">Nourish Center & Nourish Café — Qatar</div>
-          <p class="tl-d">Designed social media posts and branding content on-site and remotely for both brands.</p>
+    <div class="exp-body">
+
+      <!-- left: timeline -->
+      <div class="exp-tl">
+        <div class="tl-node active" data-idx="0" tabindex="0" role="button" aria-label="UM Graphics role">
+          <div class="tl-nd"></div>
+          <div class="tl-node-per">2019 – Present</div>
+          <div class="tl-node-role">Designer & Content Creator</div>
+          <div class="tl-node-co">UM Graphics</div>
         </div>
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <div class="tl-per">May 2025 – Present</div>
-          <div class="tl-role">Videographer & Video Editor</div>
-          <div class="tl-co">BMC – Belmontstreet Management Consultancy</div>
-          <p class="tl-d">Captured and edited high-quality video for events, promotional campaigns, and social media. Full post-production and motion graphics pipeline.</p>
+        <div class="tl-node" data-idx="1" tabindex="0" role="button" aria-label="POF Welfare role">
+          <div class="tl-nd"></div>
+          <div class="tl-node-per">Apr 2020 – Nov 2024</div>
+          <div class="tl-node-role">Designer & IT Instructor</div>
+          <div class="tl-node-co">POF Welfare Computer Centre</div>
         </div>
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <div class="tl-per">Jan – Jul 2025</div>
-          <div class="tl-role">Multimedia Production Specialist</div>
-          <div class="tl-co">Teq Booster — Qatar (6 months)</div>
-          <p class="tl-d">Created complete branding packages, designed trend-based social visuals, edited reels, and managed digital campaigns with focus on Instagram growth.</p>
+        <div class="tl-node" data-idx="2" tabindex="0" role="button" aria-label="Ayahs Kaftan role">
+          <div class="tl-nd"></div>
+          <div class="tl-node-per">Nov 2024 – Present</div>
+          <div class="tl-node-role">Designer & Video Editor</div>
+          <div class="tl-node-co">Ayahs Kaftan — Freelance</div>
         </div>
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <div class="tl-per">Nov 2024 – Present</div>
-          <div class="tl-role">Graphic Designer & Video Editor</div>
-          <div class="tl-co">Ayahs Kaftan — Freelance Remote</div>
-          <p class="tl-d">Designed high-end social media posts and motion reels for a luxury clothing brand, aligned with seasonal campaigns and marketing goals.</p>
+        <div class="tl-node" data-idx="3" tabindex="0" role="button" aria-label="Teq Booster role">
+          <div class="tl-nd"></div>
+          <div class="tl-node-per">Jan – Jul 2025</div>
+          <div class="tl-node-role">Multimedia Production Specialist</div>
+          <div class="tl-node-co">Teq Booster — Qatar</div>
         </div>
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <div class="tl-per">Jan 2023 – Nov 2024</div>
-          <div class="tl-role">Graphic Designer & Video Editor</div>
-          <div class="tl-co">ScriptExp</div>
-          <p class="tl-d">Designed social media posts, logos, and digital ads. Handled reel editing and branded content collaborating with marketing teams.</p>
+        <div class="tl-node" data-idx="4" tabindex="0" role="button" aria-label="BMC role">
+          <div class="tl-nd"></div>
+          <div class="tl-node-per">May 2025 – Present</div>
+          <div class="tl-node-role">Videographer & Video Editor</div>
+          <div class="tl-node-co">BMC — Belmontstreet</div>
         </div>
-      </div>
-      <div class="tl">
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <div class="tl-per">Jan 2021 – Oct 2025</div>
-          <div class="tl-role">Graphic Designer, SMM & IT Support</div>
-          <div class="tl-co">Adeel Traders — Wah Cantt</div>
-          <p class="tl-d">Created ads, brochures, logos, and packaging. Managed social media platforms with regular campaigns and provided IT support including data management.</p>
-        </div>
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <div class="tl-per">Apr 2020 – Nov 2024</div>
-          <div class="tl-role">Graphic Designer & IT Instructor</div>
-          <div class="tl-co">POF Welfare Computer Centre — Wah Cantt</div>
-          <p class="tl-d">Conducted in-person and online training in Graphic Design, Office Automation, and Freelancing. Contributed to institute branding and outreach.</p>
-        </div>
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <div class="tl-per">Sep 2021 – Feb 2022</div>
-          <div class="tl-role">Intern — Lab Maintenance & Data Entry</div>
-          <div class="tl-co">POF Welfare Computer Centre — Wah Cantt</div>
-          <p class="tl-d">Assisted in graphic design and IT training sessions, supported lab setup, and handled data entry during project-based internship.</p>
-        </div>
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <div class="tl-per">Apr 2018 – Oct 2024</div>
-          <div class="tl-role">Graphics & IT Support Assistant</div>
-          <div class="tl-co">Shop 86 — Wah Cantt</div>
-          <p class="tl-d">Designed print materials, edited event videos, and handled data entry and print file preparation on-site and remotely.</p>
-        </div>
-        <div class="tl-item">
-          <div class="tl-dot"></div>
-          <div class="tl-per">2019 – Present</div>
-          <div class="tl-role">Graphic Designer & Content Creator</div>
-          <div class="tl-co">UM Graphics — Self-Run Brand</div>
-          <p class="tl-d">Managed Instagram content, produced video reels and motion graphics, building a strong online presence and attracting freelance and teaching opportunities.</p>
+        <div class="tl-node" data-idx="5" tabindex="0" role="button" aria-label="Nourish Center role">
+          <div class="tl-nd"></div>
+          <div class="tl-node-per">Aug 2025 – Present</div>
+          <div class="tl-node-role">Creative & IT Support</div>
+          <div class="tl-node-co">Nourish Center — Qatar</div>
         </div>
       </div>
+
+      <!-- right: detail panel (populated by JS) -->
+      <div id="exp-detail" class="exp-detail"></div>
+
     </div>
   </section>
 
@@ -1426,17 +1556,27 @@
   <!-- Stats Strip -->
   <div id="stats-strip">
     <div class="strip-item rv">
-      <span class="strip-icon">🎨</span>
+      <svg class="strip-svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 2a10 10 0 100 20c1.1 0 2-.9 2-2v-.5c0-.3.2-.5.5-.5H17a3 3 0 003-3 8 8 0 00-8-8z"/>
+        <circle cx="6.5" cy="11.5" r="1.5"/><circle cx="9.5" cy="7.5" r="1.5"/>
+        <circle cx="14.5" cy="7.5" r="1.5"/><circle cx="17.5" cy="11.5" r="1.5"/>
+      </svg>
       <span class="strip-num">200+</span>
       <span class="strip-lbl">Designs Created</span>
     </div>
     <div class="strip-item rv">
-      <span class="strip-icon">🎬</span>
+      <svg class="strip-svg" viewBox="0 0 24 24" aria-hidden="true">
+        <rect x="2" y="5" width="15" height="14" rx="2"/>
+        <path d="M17 9l5-3v12l-5-3V9z"/>
+        <path d="M7 9l2 3-2 3M12 9v6"/>
+      </svg>
       <span class="strip-num">100+</span>
       <span class="strip-lbl">Videos Edited</span>
     </div>
     <div class="strip-item rv">
-      <span class="strip-icon">📱</span>
+      <svg class="strip-svg" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M3 11l19-9-9 19-2-8-8-2z"/>
+      </svg>
       <span class="strip-num">15+</span>
       <span class="strip-lbl">Brands Managed</span>
     </div>
@@ -1450,16 +1590,20 @@
     </div>
     <div class="ct-links rv">
       <a href="mailto:usman.umgraphics10@gmail.com" class="ct-l">
-        <span>✉</span> usman.umgraphics10@gmail.com
+        <svg class="ct-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/></svg>
+        usman.umgraphics10@gmail.com
       </a>
       <a href="tel:+97470394552" class="ct-l">
-        <span>☎</span> +974 7039 4552
+        <svg class="ct-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 005 5L15 13l5 2v4a2 2 0 01-2 2A16 16 0 013 5a2 2 0 012-2z"/></svg>
+        +974 7039 4552
       </a>
-      <a href="https://instagram.com/u_m__graphics" target="_blank" class="ct-l">
-        <span>◎</span> @u_m__graphics
+      <a href="https://instagram.com/u_m__graphics" target="_blank" rel="noopener noreferrer" class="ct-l">
+        <svg class="ct-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        @u_m__graphics
       </a>
-      <a href="#" class="ct-l">
-        <span>f</span> @umgraphics10
+      <a href="https://facebook.com/umgraphics10" target="_blank" rel="noopener noreferrer" class="ct-l">
+        <svg class="ct-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+        @umgraphics10
       </a>
     </div>
   </section>
@@ -1499,9 +1643,33 @@
       requestAnimationFrame(tick);
     })();
 
-    document.querySelectorAll('a,button,.svc-card,.cert-c,.s-card,.t-chip,.trait,.port-card,.strip-item').forEach(el => {
+    document.querySelectorAll('a,button,.svc-card,.t-chip,.trait,.port-card,.strip-item,.a-spec').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('ch'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('ch'));
+    });
+
+    // ── MOBILE MENU ────────────────────────────────────
+    const burger     = document.getElementById('burger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      burger.classList.remove('open');
+      burger.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+
+    burger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      burger.classList.toggle('open', isOpen);
+      burger.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileMenu));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMobileMenu();
     });
 
     // ── NAV SCROLL ─────────────────────────────────────
@@ -1575,7 +1743,7 @@
       });
     }, { threshold: .14 });
 
-    document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-s,.tl-item').forEach(el => obs.observe(el));
+    document.querySelectorAll('.rv,.rv-l,.rv-r,.rv-s,.tl-node').forEach(el => obs.observe(el));
 
     const skillSec = document.getElementById('skills');
     const skObs = new IntersectionObserver(entries => {
@@ -1589,8 +1757,8 @@
     }, { threshold: .2 });
     if (skillSec) skObs.observe(skillSec);
 
-    document.querySelectorAll('.tl-item').forEach((el, i) => {
-      el.style.transitionDelay = ((i % 5) * .1) + 's';
+    document.querySelectorAll('.tl-node').forEach((el, i) => {
+      el.style.transitionDelay = (i * .08) + 's';
     });
 
     // ── CLIENT MAGAZINE: sticky flip ──────────────────
@@ -1636,6 +1804,84 @@
       update();
       window.addEventListener('scroll', update, { passive: true });
       window.addEventListener('resize', update);
+    })();
+
+    // ── EXPERIENCE INTERACTIVE TIMELINE ──────────────
+    (function () {
+      const EXP = [
+        {
+          period: '2019 – Present', current: false,
+          role: 'Designer & Content Creator',
+          company: 'UM Graphics', location: 'Self-Run Brand',
+          desc: 'Built and managed a personal design brand from scratch — producing reels, motion graphics, and branded content across platforms. Grew an Instagram presence that directly attracted freelance clients and teaching opportunities. Every piece published under UM Graphics is a deliberate showcase of craft and consistency.',
+          tags: ['Graphic Design', 'Motion Graphics', 'Content Strategy', 'Instagram', 'Branding']
+        },
+        {
+          period: 'Apr 2020 – Nov 2024', current: false,
+          role: 'Designer & IT Instructor',
+          company: 'POF Welfare Computer Centre', location: 'Wah Cantt',
+          desc: 'Delivered professional training in Graphic Design, Office Automation, and Freelancing across in-person and online formats for over four years. Contributed to the institute\'s own branding and outreach materials alongside an active teaching roster. Teaching at this level demands a mastery you cannot fake.',
+          tags: ['Graphic Design', 'IT Instruction', 'Curriculum Design', 'Branding', 'Office Automation']
+        },
+        {
+          period: 'Nov 2024 – Present', current: true,
+          role: 'Designer & Video Editor',
+          company: 'Ayahs Kaftan', location: 'Freelance Remote',
+          desc: 'Ongoing creative production for a luxury fashion label — high-end social posts, seasonal campaign visuals, and motion reels that match the brand\'s refined aesthetic. A long-term retainer relationship built on consistent, elevated output delivered across time zones without supervision.',
+          tags: ['Social Media Design', 'Video Editing', 'Luxury Branding', 'Campaign Design', 'Motion Reels']
+        },
+        {
+          period: 'Jan – Jul 2025', current: false,
+          role: 'Multimedia Production Specialist',
+          company: 'Teq Booster', location: 'Qatar',
+          desc: 'Led end-to-end creative production for a fast-paced digital agency in Qatar — brand identity development, Instagram content strategy, reel editing, and full campaign execution. Managed multiple client pipelines simultaneously under tight turnaround, delivering work that moved the needle on client growth metrics.',
+          tags: ['Branding', 'Campaign Management', 'Reel Editing', 'Social Strategy', 'Design Direction']
+        },
+        {
+          period: 'May 2025 – Present', current: true,
+          role: 'Videographer & Video Editor',
+          company: 'BMC', location: 'Belmontstreet Management Consultancy',
+          desc: 'Captures and edits high-quality video for corporate events, promotional campaigns, and social content. Handles the full post-production pipeline — colour grading, motion graphics, sound design — delivering broadcast-ready content for Belmontstreet\'s clients at a consultancy standard.',
+          tags: ['Videography', 'Video Editing', 'Motion Graphics', 'Colour Grading', 'Post-Production']
+        },
+        {
+          period: 'Aug 2025 – Present', current: true,
+          role: 'Creative & IT Support',
+          company: 'Nourish Center & Nourish Café', location: 'Qatar',
+          desc: 'On-site and remote creative support for dual hospitality brands operating in Qatar. Designs social media content, maintains brand consistency across both Nourish identities, and provides hands-on IT support. Direct involvement in one of Qatar\'s emerging F&B brands during active growth.',
+          tags: ['Social Media Design', 'Brand Consistency', 'IT Support', 'Content Production', 'F&B']
+        }
+      ];
+
+      const detail = document.getElementById('exp-detail');
+      const nodes  = document.querySelectorAll('.tl-node');
+
+      function render(idx) {
+        const d = EXP[idx];
+        const badge = d.current ? '<span class="exp-d-badge">&#9679; Active</span>' : '';
+        const tags  = d.tags.map(t => `<span class="exp-d-tag">${t}</span>`).join('');
+        detail.innerHTML = `
+          <div class="exp-d-per">${d.period}${badge}</div>
+          <h3 class="exp-d-role">${d.role}</h3>
+          <div class="exp-d-co">${d.company} — ${d.location}</div>
+          <div class="exp-d-div"></div>
+          <p class="exp-d-desc">${d.desc}</p>
+          <div class="exp-d-tags">${tags}</div>`;
+      }
+
+      nodes.forEach((node, i) => {
+        node.addEventListener('click', () => {
+          nodes.forEach(n => n.classList.remove('active'));
+          node.classList.add('active');
+          detail.classList.add('swapping');
+          setTimeout(() => { render(i); detail.classList.remove('swapping'); }, 180);
+        });
+        node.addEventListener('keydown', e => {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); node.click(); }
+        });
+      });
+
+      render(0);
     })();
   </script>
 </body>
